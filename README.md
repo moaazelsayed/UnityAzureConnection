@@ -57,20 +57,49 @@ IEnumerator WaitForRequest(WWW www)
 	}  
 ```
 
-
 More info can be found at https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa.
-
-
 
 ---
 
 ## Connecting Unity3D to Azure Storage (Easy Tables)
+Headers
+```
+	headers["ZUMO-API-VERSION"] = "2.0.0" ;
+	headers["Content-Type"]="application/json";
+```
+Body json format
+`string newObj = "{\"newTitle\":\"My Title\"}";`
 
-`http://account_name.azurewebsites.net/tables/table_name`
-headers to encorporate, Content
+If title is not present in table, it will be added.
 
-Insert 
+define url
+`string url = "http://account_name.azurewebsites.net/tables/table_name";`
+
+since `www` request only takes in byte array as a body, the json will have to be cast into a byte array through `Encoding.ASCII.GetBytes(newObj)` this uses `System.Text`.
+looking at it in the request, `WWW www = new WWW(url, Encoding.ASCII.GetBytes(newObj), headers);`.
+``
+Use IEnum function to get response. `StartCoroutine(WaitForRequest(www));`.
+```
+IEnumerator WaitForRequest(WWW www)
+	{
+		yield return www;
+		// check for errors
+		if (www.error == null)
+		{
+			//Do something with response
+			Debug.Log("WWW Ok!: " + www.text);
+		} else {
+			Debug.Log("WWW Error: "+ www.error);
+		}    
+	}  
+```
+
+To find out more about how to insert into a table, check out:
 https://msdn.microsoft.com/en-us/library/azure/dd179433.aspx
 
-Query
+To find out more about how to query, check out:
 https://msdn.microsoft.com/en-us/library/azure/dd179421.aspx
+
+---
+
+##If you would like to add onto this tutorial, do a pull request!
