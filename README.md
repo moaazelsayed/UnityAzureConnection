@@ -101,6 +101,7 @@ https://msdn.microsoft.com/en-us/library/azure/dd179433.aspx
 To find out more about how to query, check out:
 https://msdn.microsoft.com/en-us/library/azure/dd179421.aspx
 
+**Note:** Make sure your account does not have app service authentication on (in Azure portal) or else you will have to add a header containing your key. 
 ---
 
 ##If you would like to add onto this tutorial, do a pull request!
